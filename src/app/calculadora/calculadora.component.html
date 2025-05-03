@@ -1,0 +1,303 @@
+<!-- Header (Menu Header) -->
+<div class="menu-header">
+  <header class="header-modern">
+    <div class="menu-toggle-modern">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav class="nav-modern">
+      <img src="./assets/images/circle-logo.png" class="logo-modern" alt="Logo">
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Sobre Mi</a></li>
+        <li><a href="#">Proyectos</a></li>
+        <li><a href="#">Artículos</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+      <button class="close-menu">X</button>
+    </nav>
+  </header>
+</div>
+
+<!-- Calculadora -->
+<div class="calculadora-container">
+  <!-- Recuadro de Instrucciones y Convenciones -->
+  <div
+    class="instrucciones-container"
+    style="border: 2px solid #320064; padding: 1rem; margin-bottom: 1.5rem; background-color: #282828; color: #ffffff; border-radius: 8px; text-align: center;"
+  >
+    <h2>Instrucciones de Uso</h2>
+    <p>
+      Esta calculadora reactiva permite realizar diversos cálculos eléctricos y de análisis de circuitos utilizando fórmulas
+      basadas en sistemas monofásicos, trifásicos, análisis AC y velocidad angular.
+    </p>
+    <p>
+      Modo de uso: seleccione el sistema (esto desplegará las subopciones más abajo), luego seleccione la variable (esto
+      desplegará las fórmulas correspondientes más abajo) y, finalmente, seleccione la fórmula (esto desplegará el formulario de
+      ingreso de datos). Ingrese los valores en los campos correspondientes y presione el botón calcular para obtener el
+      resultado con la unidad adecuada.
+    </p>
+    <p>
+      <strong>NOTA:</strong> CUANDO EN UNA FÓRMULA SE USA UN FACTOR DE 1000, SE ASUME QUE LOS RESULTADOS SE EXPRESAN EN KILO
+      UNIDADES (POR EJEMPLO, KVA, KILO OHMIOS, ETC.).
+    </p>
+    <p>
+      <strong>ADEMÁS, LAS VARIABLES COS(φ), TAN(φ) Y SEN(φ) SE ASIGNAN CON VALORES PREDETERMINADOS (QUE PUEDEN MODIFICARSE) Y EL
+      VALOR DE π SE CONSIDERA 3.1416.</strong>
+    </p>
+    <p><strong>IMPORTANTE:</strong> LOS VALORES A INGRESAR SIEMPRE SON EN LA UNIDAD DE OHMIOS, VOLTIOS, AMPERIOS O WATIOS.</p>
+    <h3>Convenciones y Símbolos</h3>
+    <ul
+      style="list-style: none; margin: 1rem auto; max-width: 600px; text-align: center; column-count: 2; column-gap: 2rem; padding: 0;"
+    >
+      <li style="text-align: center;"><strong>V</strong> - Voltage (Voltios)</li>
+      <li style="text-align: center;"><strong>I</strong> - Corriente (Amperios)</li>
+      <li style="text-align: center;"><strong>R</strong> - Resistencia (Ohmios)</li>
+      <li style="text-align: center;"><strong>W</strong> - Potencia Activa (Watios)</li>
+      <li style="text-align: center;"><strong>kVA</strong> - Potencia Aparente</li>
+      <li style="text-align: center;"><strong>kW</strong> - Potencia Activa</li>
+      <li style="text-align: center;"><strong>kVAR</strong> - Potencia Reactiva</li>
+      <li style="text-align: center;"><strong>f</strong> - Frecuencia</li>
+      <li style="text-align: center;"><strong>C</strong> - Capacitancia</li>
+      <li style="text-align: center;"><strong>L</strong> - Inductancia</li>
+      <li style="text-align: center;"><strong>X</strong> - Reactancia</li>
+      <li style="text-align: center;"><strong>XC</strong> - Reactancia Capacitiva</li>
+      <li style="text-align: center;"><strong>XL</strong> - Reactancia Inductiva</li>
+      <li style="text-align: center;"><strong>Z</strong> - Impedancia (Ohmios)</li>
+      <li style="text-align: center;"><strong>ω</strong> - Velocidad Angular (rad/s)</li>
+      <li style="text-align: center;"><strong>π</strong> - 3.1416</li>
+      <li style="text-align: center;"><strong>cos(φ)</strong> - Coseno de φ</li>
+      <li style="text-align: center;"><strong>tan(φ)</strong> - Tangente de φ</li>
+      <li style="text-align: center;"><strong>sen(φ)</strong> - Seno de φ</li>
+    </ul>
+  </div>
+
+  <!-- Opciones principales -->
+  <div class="opciones-container main-options">
+    <h2>SELECCIONA EL SISTEMA:</h2>
+    <div class="opciones-list">
+      <button
+        *ngFor="let opcion of opcionesPrincipales"
+        (click)="seleccionarOpcion(opcion)"
+        [class.active]="opcion === opcionSeleccionada"
+      >
+        {{ opcion }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Subopciones -->
+  <div class="opciones-container sub-options" *ngIf="opcionSeleccionada">
+    <h2>SELECCIONA LA VARIABLE:</h2>
+    <div class="opciones-list">
+      <button
+        *ngFor="let subopcion of (opcionSeleccionada ? subopciones[opcionSeleccionada] : [])"
+        (click)="seleccionarSubopcion(subopcion)"
+        [class.active]="subopcion === subopcionSeleccionada"
+      >
+        {{ subopcion }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Opciones adicionales -->
+  <div class="opciones-container adicionales" *ngIf="subopcionSeleccionada">
+    <h2>SELECCIONA LA FÓRMULA:</h2>
+    <div class="opciones-list">
+      <!-- Listado según sistema -->
+      <ng-container *ngIf="opcionSeleccionada === 'Sistemas monofásicos'">
+        <button
+          *ngFor="let item of monofasicoEquations[subopcionSeleccionada!] ; let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
+        >
+          {{ item.formula }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="opcionSeleccionada === 'Sistemas trifásicos'">
+        <button
+          *ngFor="let item of trifasicoEquations[subopcionSeleccionada!] ; let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
+        >
+          {{ item.formula }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC coseno de φ'">
+        <button
+          *ngFor="let item of acTrifasicoEquations[subopcionSeleccionada!] ; let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
+        >
+          {{ item.formula }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC velocidad angular'">
+        <button
+          *ngFor="let item of acVelocidadEquations[subopcionSeleccionada!] ; let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
+        >
+          {{ item.formula }}
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC General'">
+        <button
+          *ngFor="let item of acGeneralEquations[subopcionSeleccionada!] ; let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
+        >
+          {{ item.formula }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Formulario para ecuaciones -->
+  <div
+    class="formulario-container formulario-fondo"
+    *ngIf="
+      (opcionSeleccionada === 'Sistemas monofásicos' ||
+        opcionSeleccionada === 'Sistemas trifásicos' ||
+        opcionSeleccionada === 'Análisis AC coseno de φ' ||
+        opcionSeleccionada === 'Análisis AC velocidad angular' ||
+        opcionSeleccionada === 'Análisis AC General') && selectedEquation
+    "
+  >
+    <h2>Formulario para {{ selectedEquation.formula }}</h2>
+    <form (ngSubmit)="calcular()">
+      <div class="form-group" *ngFor="let variable of equationVariableLabels">
+        <label [for]="variable">{{ variable }}:</label>
+        <input type="number" [id]="variable" [(ngModel)]="formulario[variable]" [name]="variable" required />
+      </div>
+
+      <!-- Nuevo control: decimales -->
+      <div class="form-group">
+        <label for="decimales">Decimales:</label>
+        <input
+          type="number"
+          id="decimales"
+          name="decimales"
+          min="0"
+          max="6"
+          step="1"
+          [(ngModel)]="decimales"
+          required
+        />
+      </div>
+
+      <button type="submit">Calcular</button>
+    </form>
+  </div>
+
+  <!-- Formulario genérico -->
+  <div
+    class="formulario-container"
+    *ngIf="
+      opcionSeleccionada !== 'Sistemas monofásicos' &&
+      opcionSeleccionada !== 'Sistemas trifásicos' &&
+      opcionSeleccionada !== 'Análisis AC coseno de φ' &&
+      opcionSeleccionada !== 'Análisis AC velocidad angular' &&
+      opcionSeleccionada !== 'Análisis AC General' &&
+      subopcionSeleccionada
+    "
+  >
+    <h2>Formulario para {{ subopcionSeleccionada }}</h2>
+    <form (ngSubmit)="calcular()">
+      <div class="form-group">
+        <label for="input1">Input 1:</label>
+        <input type="number" id="input1" [(ngModel)]="formulario['input1']" name="input1" required />
+      </div>
+      <div class="form-group">
+        <label for="input2">Input 2:</label>
+        <input type="number" id="input2" [(ngModel)]="formulario['input2']" name="input2" required />
+      </div>
+      <div class="form-group">
+        <label for="input3">Input 3:</label>
+        <input type="number" id="input3" [(ngModel)]="formulario['input3']" name="input3" required />
+      </div>
+
+      <!-- Nuevo control: decimales -->
+      <div class="form-group">
+        <label for="decimales2">Decimales:</label>
+        <input
+          type="number"
+          id="decimales2"
+          name="decimales2"
+          min="0"
+          max="6"
+          step="1"
+          [(ngModel)]="decimales"
+          required
+        />
+      </div>
+
+      <button type="submit">Calcular</button>
+    </form>
+  </div>
+
+  <!-- Resultado -->
+  <div class="resultado-container" *ngIf="resultado !== null">
+    <h2>Resultado</h2>
+    <p>{{ resultado }} {{ unidad }}</p>
+
+    <!-- Tabla de conversiones -->
+    <table class="conversion-table">
+      <thead>
+        <tr>
+          <th>f{{ unidad }}</th>
+          <th>p{{ unidad }}</th>
+          <th>n{{ unidad }}</th>
+          <th>µ{{ unidad }}</th>
+          <th>m{{ unidad }}</th>
+          <th>{{ unidad }}</th>
+          <th>k{{ unidad }}</th>
+          <th>M{{ unidad }}</th>
+          <th>G{{ unidad }}</th>
+          <th>T{{ unidad }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ conversiones.f }}</td>
+          <td>{{ conversiones.p }}</td>
+          <td>{{ conversiones.n }}</td>
+          <td>{{ conversiones.u }}</td>
+          <td>{{ conversiones.m }}</td>
+          <td>{{ conversiones.base }}</td>
+          <td>{{ conversiones.k }}</td>
+          <td>{{ conversiones.M }}</td>
+          <td>{{ conversiones.G }}</td>
+          <td>{{ conversiones.T }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer class="footer-4">
+  <div class="footer-container-4">
+    <div class="footer-contact-4">
+      <h3 class="footer-title-4">Conéctate con Nosotros</h3>
+      <p class="footer-text-4">
+        Explora mis redes sociales y envíame un mensaje para colaborar en proyectos innovadores.
+      </p>
+    </div>
+    <div class="footer-icons-4">
+      <a href="https://www.linkedin.com/in/guillermovasbendev/" target="_blank" class="footer-icon-link-4">
+        <img src="./assets/images/icon-4-linkedin.png" alt="LinkedIn" class="icon-4" />
+      </a>
+      <a href="https://github.com/guillermoSoftwareEngineer" target="_blank" class="footer-icon-link-4">
+        <img src="./assets/images/icon-4-github.png" alt="GitHub" class="icon-4" />
+      </a>
+      <a href="mailto:tuemail@example.com" class="footer-icon-link-4">
+        <img src="./assets/images/icon-4-email.png" alt="Correo Electrónico" class="icon-4" />
+      </a>
+    </div>
+  </div>
+</footer>
