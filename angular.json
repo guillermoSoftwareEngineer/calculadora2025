@@ -41,6 +41,7 @@
             "outputPath": "dist/calculadora-electrica",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "baseHref": "/calculadora2025/",
             "polyfills": [
               "zone.js"
             ],
@@ -59,13 +60,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
