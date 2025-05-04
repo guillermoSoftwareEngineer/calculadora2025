@@ -10,14 +10,17 @@
   position: relative;
   width: 100%;
   padding: 10px;
-  background: linear-gradient(135deg, rgba(40, 40, 40, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(40, 40, 40, 0.9) 0%,
+    rgba(60, 60, 60, 0.9) 100%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60px;
 }
 
-/* Hamburguesa */
 .menu-toggle-modern {
   display: flex;
   flex-direction: column;
@@ -28,10 +31,9 @@
 }
 
 .menu-toggle-modern span {
-  display: block;
   width: 100%;
   height: 3px;
-  background-color: var(--color-text, #ffffff);
+  background: var(--color-text, #ffffff);
   border-radius: 2px;
   transition: all 0.3s ease-in-out;
 }
@@ -46,14 +48,17 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Navegación */
 .nav-modern {
   position: fixed;
   top: 0;
   right: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(40, 40, 40, 0.95) 0%, rgba(60, 60, 60, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(40, 40, 40, 0.95) 0%,
+    rgba(60, 60, 60, 0.95) 100%
+  );
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -105,19 +110,17 @@
   background-color: var(--color-secondary, #230046);
 }
 
-/* Desktop > 425px */
 @media screen and (min-width: 426px) {
   .menu-toggle-modern,
   .close-menu {
     display: none;
   }
-
   .nav-modern {
     position: static;
     width: auto;
     height: auto;
     flex-direction: row;
-    background-color: transparent;
+    background: transparent;
     justify-content: center;
   }
   .nav-modern ul {
@@ -141,18 +144,18 @@
 /* ============================= */
 
 .calculadora-container {
-  max-width: 800px;
+  max-width: 880px;
   margin: 2rem auto;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-              url('/assets/img/IngenieroCalculadora.png') center/cover no-repeat;
+  padding: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url('/assets/img/IngenieroCalculadora.png') center/cover no-repeat;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
   color: var(--color-text, #ffffff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Títulos */
 .calculadora-titulo,
 .opciones-container h2,
 .formulario-container h2,
@@ -162,69 +165,97 @@
   letter-spacing: 2px;
 }
 
-/* Contenedores internos */
 .opciones-container,
 .formulario-container,
 .resultado-container {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background-color: var(--color-surface, #282828);
+  margin-block-end: 2rem;
+  padding: clamp(1rem, 1.5vw + 0.5rem, 2rem);
+  background: var(--color-surface, #282828);
   border: 1px solid var(--color-border, #320064);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   text-align: center;
 }
 
-/* Botones */
 button {
-  background-color: var(--color-primary, #230046);
+  background: linear-gradient(135deg, var(--color-primary, #230046) 0%, var(--color-secondary, #320064) 100%);
   color: var(--color-text, #ffffff);
-  border: 1px solid var(--color-text, #ffffff);
+  border: 1px solid var(--color-secondary, #320064);
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
   margin: 0.5rem;
 }
 
-button:hover {
-  background-color: var(--color-secondary, #320064);
-  transform: translateY(-2px);
+button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-secondary, #320064) 0%, var(--color-primary, #230046) 100%);
+  transform: translateY(-2px) scale(1.03);
 }
 
-button:active {
+button:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Inputs */
+button:focus-visible {
+  outline: 2px dashed var(--color-secondary, #320064);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 input {
   width: 100%;
   padding: 0.75rem;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
   border: 1px solid var(--color-border, #320064);
   border-radius: 6px;
   font-size: 1rem;
-  background-color: #cdcdcd;
-  color: var(--color-secondary, #320064);
+  background: var(--color-input-bg, #cdcdcd);
+  color: var(--color-input-text, #141414);
 }
 
-/* Tabla de conversiones con scroll */
+/* ============================= */
+/*         Resultados            */
+/* ============================= */
+
+.resultado-container .valor-principal {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 .conversiones-wrapper {
-  overflow-x: auto;
-  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  justify-items: center;
+  align-items: start;
 }
 
-.conversion-table {
-  width: max-content;
-  border-collapse: collapse;
+.conversion-item {
+  background: var(--color-surface, #282828);
+  border: 1px solid var(--color-border, #320064);
+  border-radius: 6px;
+  padding: 0.75rem;
+  width: 100%;
+  max-width: 140px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-.conversion-table th,
-.conversion-table td {
-  padding: 0.5rem 1rem;
-  color: var(--color-text, #ffffff);
-  white-space: nowrap;
+.conversion-item .valor {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  word-break: break-word;
+}
+
+.conversion-item .unidad {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary, #cccccc);
 }
 
 /* ============================= */
@@ -241,8 +272,8 @@ input {
 .footer-container-4 {
   display: flex;
   flex-direction: column;
-  gap: 30px;
   align-items: center;
+  gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -260,19 +291,18 @@ input {
 .footer-icons-4 {
   display: flex;
   gap: 20px;
-  align-items: center;
 }
 
 .icon-4 {
   width: 50px;
   height: 50px;
-  background-color: #282c34;
+  background: #282c34;
   padding: 10px;
   border-radius: 50%;
-  transition: transform 0.3s, background-color 0.3s;
+  transition: transform 0.3s, background 0.3s;
 }
 
 .footer-icon-link-4:hover .icon-4 {
   transform: scale(1.1);
-  background-color: #3a3d46;
+  background: #3a3d46;
 }
