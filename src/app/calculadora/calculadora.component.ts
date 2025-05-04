@@ -2,9 +2,8 @@ import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-/* -------------------------------------------------------------------------- */
-/*                            Interfaces y tipados                            */
-/* -------------------------------------------------------------------------- */
+/* Interfaces y tipados de Typescript */
+
 interface Equation {
   formula: string;
   variables: string[];
@@ -24,9 +23,8 @@ interface Conversions {
   T: string;  // tera
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 Componente                                 */
-/* -------------------------------------------------------------------------- */
+/* Configuracion de componente */
+
 @Component({
   selector: 'app-calculadora',
   standalone: true,
@@ -36,7 +34,8 @@ interface Conversions {
 })
 export class CalculadoraComponent implements AfterViewInit {
 
-  /* ------------------------- Configuración de UI ------------------------- */
+  /* Configuración de UI  */
+
   decimales: number = 2;                                  // cifras decimales elegidas
   conversiones: Conversions = this.crearConversiones(0);  // tabla inicial
 
@@ -67,9 +66,10 @@ export class CalculadoraComponent implements AfterViewInit {
 
   selectedEquation: Equation | null = null;
 
-  /* -------------------------------------------------------------------------- */
-  /*                               Bloque completo                              */
-  /* -------------------------------------------------------------------------- */
+
+  /* Bloque de Arrays con ecuaciones para cada variable electrica */
+
+
   monofasicoEquations: { [sub: string]: Equation[] } = {
     'Vatios': [
       { formula: 'W = V² / R', variables: ['V', 'R'], compute: inp => Math.pow(+inp['V'], 2) / +inp['R'] },
@@ -169,7 +169,9 @@ export class CalculadoraComponent implements AfterViewInit {
   };
 
   acGeneralEquations: { [sub: string]: Equation[] } = {
-    /* ------------------------- KVAR ------------------------------------- */
+
+    /*  KVAR  */
+
     'KVAR': [
       { formula: 'kVAR = kVA * sen(φ)', variables: ['kVA', 'sen(φ)'], compute: inp => +inp['kVA'] * +inp['sen(φ)'] },
       { formula: 'kVAR = kW * tan(φ)', variables: ['kW', 'tan(φ)'], compute: inp => +inp['kW'] * +inp['tan(φ)'] },
@@ -185,7 +187,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'kVAR = kVA * X / sqrt(R² + X²)', variables: ['kVA', 'X', 'R'], compute: inp => +inp['kVA'] * +inp['X'] / Math.sqrt(Math.pow(+inp['R'], 2) + Math.pow(+inp['X'], 2)) },
       { formula: 'kVAR = kW * X / (R * Z)', variables: ['kW', 'X', 'R', 'Z'], compute: inp => +inp['kW'] * +inp['X'] / (+inp['R'] * +inp['Z']) }
     ],
-    /* --------------------------- KW -------------------------------------- */
+
+    /*  KW  */
+
     'KW': [
       { formula: 'kW = kVA * cos(φ)', variables: ['kVA', 'cos(φ)'], compute: inp => +inp['kVA'] * +inp['cos(φ)'] },
       { formula: 'kW = kVAR / tan(φ)', variables: ['kVAR', 'tan(φ)'], compute: inp => +inp['kVAR'] / +inp['tan(φ)'] },
@@ -201,7 +205,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'kW = kVA * R / sqrt(Z² + X²)', variables: ['kVA', 'R', 'Z', 'X'], compute: inp => +inp['kVA'] * +inp['R'] / Math.sqrt(Math.pow(+inp['Z'], 2) + Math.pow(+inp['X'], 2)) },
       { formula: 'kW = kVA * R / Z', variables: ['kVA', 'R', 'Z'], compute: inp => +inp['kVA'] * +inp['R'] / +inp['Z'] }
     ],
-    /* --------------------------- KVA ------------------------------------- */
+
+    /*  KVA  */
+
     'KVA': [
       { formula: 'kVA = kW / cos(φ)', variables: ['kW', 'cos(φ)'], compute: inp => +inp['kW'] / +inp['cos(φ)'] },
       { formula: 'kVA = sqrt(kW² + kVAR²)', variables: ['kW', 'kVAR'], compute: inp => Math.sqrt(Math.pow(+inp['kW'], 2) + Math.pow(+inp['kVAR'], 2)) },
@@ -217,7 +223,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'kVA = kW * Z / R', variables: ['kW', 'Z', 'R'], compute: inp => +inp['kW'] * +inp['Z'] / +inp['R'] },
       { formula: 'kVA = (kVAR * Z) / sqrt(Z² - R²)', variables: ['kVAR', 'Z', 'R'], compute: inp => +inp['kVAR'] * +inp['Z'] / Math.sqrt(Math.pow(+inp['Z'], 2) - Math.pow(+inp['R'], 2)) }
     ],
-    /* ---------------------------- X -------------------------------------- */
+
+    /* X (REACTNCIA) */
+
     'X': [
       { formula: 'X = sqrt(Z² - R²)', variables: ['Z', 'R'], compute: inp => Math.sqrt(Math.pow(+inp['Z'], 2) - Math.pow(+inp['R'], 2)) },
       { formula: 'X = (kVAR * Z) / VA', variables: ['kVAR', 'Z', 'VA'], compute: inp => +inp['kVAR'] * +inp['Z'] / +inp['VA'] },
@@ -233,7 +241,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'X = (VAR * VA) / (VA + W)', variables: ['VAR', 'VA', 'W'], compute: inp => +inp['VAR'] * +inp['VA'] / (+inp['VA'] + +inp['W']) },
       { formula: 'X = (R * sen(φ)) / cos(φ)', variables: ['R', 'sen(φ)', 'cos(φ)'], compute: inp => +inp['R'] * +inp['sen(φ)'] / +inp['cos(φ)'] }
     ],
-    /* ---------------------------- I -------------------------------------- */
+
+    /* I  */
+
     'I': [
       { formula: 'I = V / (1.73 * Z)', variables: ['V', 'Z'], compute: inp => +inp['V'] / (1.73 * +inp['Z']) },
       { formula: 'I = V / (1.73 * R)', variables: ['V', 'R'], compute: inp => +inp['V'] / (1.73 * +inp['R']) },
@@ -249,7 +259,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'I = sqrt(kVA² / (Z * sen(φ)))', variables: ['kVA', 'Z', 'sen(φ)'], compute: inp => Math.sqrt(Math.pow(+inp['kVA'], 2) / (+inp['Z'] * +inp['sen(φ)'])) },
       { formula: 'I = V * cos(φ) / (1.73 * sqrt(Z² - R²))', variables: ['V', 'cos(φ)', 'Z', 'R'], compute: inp => +inp['V'] * +inp['cos(φ)'] / (1.73 * Math.sqrt(Math.pow(+inp['Z'], 2) - Math.pow(+inp['R'], 2))) }
     ],
-    /* ----------------------------- V ------------------------------------- */
+
+    /*  V  */
+
     'V': [
       { formula: 'V = I * Z * 1.73', variables: ['I', 'Z'], compute: inp => +inp['I'] * +inp['Z'] * 1.73 },
       { formula: 'V = kVA / (1.73 * I)', variables: ['kVA', 'I'], compute: inp => +inp['kVA'] / (1.73 * +inp['I']) },
@@ -265,7 +277,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'V = (I * 1.73 * sqrt(Z² - R²)) / sen(φ)', variables: ['I', 'Z', 'R', 'sen(φ)'], compute: inp => +inp['I'] * 1.73 * Math.sqrt(Math.pow(+inp['Z'], 2) - Math.pow(+inp['R'], 2)) / +inp['sen(φ)'] },
       { formula: 'V = kVA / (1.73 * I * sen(φ))', variables: ['kVA', 'I', 'sen(φ)'], compute: inp => +inp['kVA'] / (1.73 * +inp['I'] * +inp['sen(φ)']) }
     ],
-    /* ----------------------------- R ------------------------------------- */
+
+    /*R  */
+
     'R': [
       { formula: 'R = Z * cos(φ)', variables: ['Z', 'cos(φ)'], compute: inp => +inp['Z'] * +inp['cos(φ)'] },
       { formula: 'R = sqrt(Z² - X²)', variables: ['Z', 'X'], compute: inp => Math.sqrt(Math.pow(+inp['Z'], 2) - Math.pow(+inp['X'], 2)) },
@@ -280,7 +294,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'R = (Z * sen(φ)) / tan(φ)', variables: ['Z', 'sen(φ)', 'tan(φ)'], compute: inp => +inp['Z'] * +inp['sen(φ)'] / +inp['tan(φ)'] },
       { formula: 'R = (N² * W) / (VAR * W)', variables: ['N', 'W', 'VAR'], compute: inp => Math.pow(+inp['N'], 2) * +inp['W'] / (+inp['VAR'] * +inp['W']) }
     ],
-    /* ----------------------------- W ------------------------------------- */
+
+    /*W */
+
     'W': [
       { formula: 'W = V * I * 1.73 * cos(φ)', variables: ['V', 'I', 'cos(φ)'], compute: inp => +inp['V'] * +inp['I'] * 1.73 * +inp['cos(φ)'] },
       { formula: 'W = 2 * 3.1416 * f * cos(φ) * I²', variables: ['f', 'cos(φ)', 'I'], compute: inp => 2 * 3.1416 * +inp['f'] * +inp['cos(φ)'] * Math.pow(+inp['I'], 2) },
@@ -296,7 +312,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'W = (V² * X) / (2 * X² + Z²)', variables: ['V', 'X', 'Z'], compute: inp => Math.pow(+inp['V'], 2) * +inp['X'] / (2 * Math.pow(+inp['X'], 2) + Math.pow(+inp['Z'], 2)) },
       { formula: 'W = (VA² * X) / (2 * X² + Z²)', variables: ['VA', 'X', 'Z'], compute: inp => Math.pow(+inp['VA'], 2) * +inp['X'] / (2 * Math.pow(+inp['X'], 2) + Math.pow(+inp['Z'], 2)) }
     ],
-    /* --------------------------- tan(φ) ---------------------------------- */
+
+    /* tan(φ)*/
+
     'tan(φ)': [
       { formula: 'tan(φ) = VAR / W', variables: ['VAR', 'W'], compute: inp => +inp['VAR'] / +inp['W'] },
       { formula: 'tan(φ) = X / R', variables: ['X', 'R'], compute: inp => +inp['X'] / +inp['R'] },
@@ -312,7 +330,9 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'tan(φ) = VAR / (1.73 * V * I * cos(φ))', variables: ['VAR', 'V', 'I', 'cos(φ)'], compute: inp => +inp['VAR'] / (1.73 * +inp['V'] * +inp['I'] * +inp['cos(φ)']) },
       { formula: 'tan(φ) = (V * IA * Z - W) / W', variables: ['V', 'IA', 'Z', 'W'], compute: inp => (+inp['V'] * +inp['IA'] * +inp['Z'] - +inp['W']) / +inp['W'] }
     ],
-    /* --------------------------- cos(φ) ---------------------------------- */
+
+    /* cos(φ)  */
+
     'cos(φ)': [
       { formula: 'cos(φ) = W / sqrt(W² + VAR²)', variables: ['W', 'VAR'], compute: inp => +inp['W'] / Math.sqrt(Math.pow(+inp['W'], 2) + Math.pow(+inp['VAR'], 2)) },
       { formula: 'cos(φ) = W / (1.73 * V * I)', variables: ['W', 'V', 'I'], compute: inp => +inp['W'] / (1.73 * +inp['V'] * +inp['I']) },
@@ -328,7 +348,8 @@ export class CalculadoraComponent implements AfterViewInit {
       { formula: 'cos(φ) = (Z * W) / V²', variables: ['Z', 'W', 'V'], compute: inp => +inp['Z'] * +inp['W'] / Math.pow(+inp['V'], 2) },
       { formula: 'cos(φ) = (V * I * sen²(φ))', variables: ['V', 'I', 'sen(φ)'], compute: inp => +inp['V'] * +inp['I'] * Math.pow(+inp['sen(φ)'], 2) }
     ],
-    /* --------------------------- sen(φ) ---------------------------------- */
+    /* sen(φ) */
+
     'sen(φ)': [
       { formula: 'sen(φ) = VAR / sqrt(W² + VAR²)', variables: ['VAR', 'W'], compute: inp => +inp['VAR'] / Math.sqrt(Math.pow(+inp['W'], 2) + Math.pow(+inp['VAR'], 2)) },
       { formula: 'sen(φ) = VAR / (3 * Z)', variables: ['VAR', 'Z'], compute: inp => +inp['VAR'] / (3 * +inp['Z']) },
@@ -346,16 +367,16 @@ export class CalculadoraComponent implements AfterViewInit {
     ]
   };
 
-  /* -------------------------------------------------------------------------- */
-  /*                                   Getters                                   */
-  /* -------------------------------------------------------------------------- */
+  /*Getters para obtener los arrays de ecuaciones*/
+
+
   get equationVariableLabels(): string[] {
     return this.selectedEquation ? this.selectedEquation.variables : [];
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                              Lógica de selección                            */
-  /* -------------------------------------------------------------------------- */
+  /*Lógica de selección*/
+
+
   seleccionarOpcion(opcion: string): void {
     this.opcionSeleccionada = opcion;
     this.subopcionSeleccionada = null;
@@ -393,9 +414,7 @@ export class CalculadoraComponent implements AfterViewInit {
     this.resetearFormulario(true);
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                                   Cálculo                                   */
-  /* -------------------------------------------------------------------------- */
+  /* Seccion de Cálculo*/
   calcular(): void {
     if (this.selectedEquation) {
       for (const v of this.selectedEquation.variables) {
@@ -415,9 +434,9 @@ export class CalculadoraComponent implements AfterViewInit {
     this.conversiones = this.crearConversiones(this.resultado ?? 0);
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                               Auxiliares UI                                */
-  /* -------------------------------------------------------------------------- */
+  /*Auxiliares UI*/
+
+
   resetearFormulario(resetInputs = true): void {
     if (resetInputs) {
       if (this.selectedEquation) {
@@ -467,9 +486,9 @@ export class CalculadoraComponent implements AfterViewInit {
     };
   }
 
-  /* -------------------------------------------------------------------------- */
-  /*                          Inicialización del DOM                            */
-  /* -------------------------------------------------------------------------- */
+  /*Inicialización del DOM*/
+
+
   ngAfterViewInit(): void {
     const toggle = document.querySelector('.menu-header .menu-toggle-modern') as HTMLElement | null;
     const nav    = document.querySelector('.menu-header .nav-modern')        as HTMLElement | null;

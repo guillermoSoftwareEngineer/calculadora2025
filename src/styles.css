@@ -1,6 +1,4 @@
-/* =================================================================== */
-/*                    GLOBAL RESET  +  PALETA OSCURA                    */
-/* =================================================================== */
+/*                    ESTILOS GLOBALES                   */
 
 :root {
   /* Paleta principal */
@@ -14,7 +12,7 @@
   --color-input-bg:   #d3d3d3;
   --color-input-text: #141414;
 
-  /* Tipografía fluida con clamp() */
+  /* Tipografía fluida con clamp(), PARA EL RESPONSIVE DE LOS FONTSs */
   --fs-base: clamp(0.95rem, 0.80rem + 0.5vw, 1.05rem);
   --fs-sm:   clamp(0.85rem, 0.70rem + 0.4vw, 0.95rem);
   --fs-lg:   clamp(1.15rem, 0.95rem + 0.6vw, 1.35rem);
@@ -57,9 +55,9 @@ img { max-width: 100%; height: auto; display: block; }
 /* Listas */
 ul, ol { list-style: none; }
 
-/* ---------------------------------------------- */
-/*                TIPOGRAFÍA GLOBAL               */
-/* ---------------------------------------------- */
+/*             clases de titulos siguiendo SEO y HTML SEMANTICO                */
+
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.2;
@@ -75,7 +73,7 @@ h5 { font-size: var(--fs-base);}
 h6 { font-size: var(--fs-sm);  }
 
 /* ---------------- COMPONENTE CALCULADORA ---------------- */
-/*  Reglas globales indispensables; el resto en su CSS local */
+
 .calculadora-titulo {
   font-size: var(--fs-2xl);
   text-align: center;
@@ -96,9 +94,8 @@ input, select {
 .mb-1 { margin-bottom: 1rem; }
 .p-1  { padding: 1rem; }
 
-/* ========================================================= */
 /*   ACCESSIBILITY: Focus‑visible para menú y navegación      */
-/* ========================================================= */
+
 .menu-toggle-modern:focus-visible,
 .close-menu:focus-visible,
 .nav-modern ul li a:focus-visible {

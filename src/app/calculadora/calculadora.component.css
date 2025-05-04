@@ -1,6 +1,6 @@
-/* ============================= */
-/*          Header CSS           */
-/* ============================= */
+
+/*       Clases de Header CSS           */
+
 
 .menu-header {
   width: 100%;
@@ -139,9 +139,9 @@
   margin-top: 0;
 }
 
-/* ============================= */
-/*          Calculadora          */
-/* ============================= */
+
+/*        Clases seccion de Calculadora          */
+
 
 .calculadora-container {
   max-width: 880px;
@@ -219,9 +219,9 @@ input {
   color: var(--color-input-text, #141414);
 }
 
-/* ============================= */
-/*         Resultados            */
-/* ============================= */
+
+/*       Clases de seccion Resultados            */
+
 
 .resultado-container .valor-principal {
   font-size: 1.5rem;
@@ -258,9 +258,7 @@ input {
   color: var(--color-text-secondary, #cccccc);
 }
 
-/* ============================= */
-/*            Footer             */
-/* ============================= */
+/*           Clases de Footer             */
 
 .footer-4 {
   background: linear-gradient(135deg, #20232a, #181a1f);

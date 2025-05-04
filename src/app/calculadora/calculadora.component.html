@@ -1,4 +1,4 @@
-<!-- Header (Menu Header) -->
+<!-- Header (Menu Header) CON LINKS A PORTAFOLIO PRINCIPAL -->
 <div class="menu-header">
   <header class="header-modern">
     <div class="menu-toggle-modern">
@@ -23,7 +23,7 @@
 
 <!-- Calculadora -->
 <div class="calculadora-container">
-  <!-- Recuadro de Instrucciones y Convenciones -->
+  <!-- Recuadro de Instrucciones y Convenciones, Indica al usuario como manejar la calculadora -->
   <div
     class="instrucciones-container"
     style="border: 2px solid #320064; padding: 1rem; margin-bottom: 1.5rem; background-color: #282828; color: #ffffff; border-radius: 8px; text-align: center;"
@@ -76,7 +76,7 @@
     </ul>
   </div>
 
-  <!-- Opciones principales -->
+  <!-- Opciones principales seleccion del sistema por el usuario para desplegar lo demas -->
   <div class="opciones-container main-options">
     <h2>SELECCIONA EL SISTEMA:</h2>
     <div class="opciones-list">
@@ -90,7 +90,7 @@
     </div>
   </div>
 
-  <!-- Subopciones -->
+  <!-- Subopciones 1 de seleccion del usuario-->
   <div class="opciones-container sub-options" *ngIf="opcionSeleccionada">
     <h2>SELECCIONA LA VARIABLE:</h2>
     <div class="opciones-list">
@@ -104,7 +104,7 @@
     </div>
   </div>
 
-  <!-- Opciones adicionales -->
+  <!-- Opciones adicionales 2 de seleccion del usuario-->
   <div class="opciones-container adicionales" *ngIf="subopcionSeleccionada">
     <h2>SELECCIONA LA FÓRMULA:</h2>
     <div class="opciones-list">
@@ -272,7 +272,7 @@
     <h2>Resultado</h2>
     <p class="valor-principal">{{ resultado }} {{ unidad }}</p>
 
-    <!-- Tarjetas de conversiones -->
+    <!-- Tarjetas de conversiones para mostrar las diferentes conversiones de un solo resultado -->
     <div class="conversiones-wrapper">
       <div
         class="conversion-item"
