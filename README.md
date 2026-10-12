@@ -56,6 +56,23 @@ Abrir en el navegador:
 
 http://localhost:4200/
 
+## Validacion y despliegue
+
+`npm start` sirve el desarrollo en `http://localhost:4200/`. La compilacion de produccion utiliza `/calculadora2025/` para GitHub Pages.
+
+```bash
+npm test -- --watch=false --browsers=ChromeHeadless
+npm run build:pages
+```
+
+El build de Pages queda en la raiz de `docs/`, con `index.html`, sus recursos y `404.html`. Para publicar ese mismo build en la rama `gh-pages`:
+
+```bash
+npm run deploy:pages
+```
+
+GitHub Pages debe servir la rama `gh-pages` desde `/ (root)`. Tambien puede servir `main` desde `/docs`, que contiene los mismos recursos.
+
 ## Enlaces del proyecto
 
 Código fuente:

@@ -1,329 +1,447 @@
-<!-- Header (Menu Header) CON LINKS A PORTAFOLIO PRINCIPAL -->
-<div class="menu-header">
-  <header class="header-modern">
-    <div class="menu-toggle-modern">
-      <img src="assets/images/circle-logo.png" alt="Menu" class="toggle-icon">
-    </div>
-    <nav class="nav-modern">
-      <img src="./assets/images/circle-logo.png" class="logo-modern" alt="Logo">
-      <ul>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/index.html">Inicio</a></li>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/sobre-mi.html">Sobre Mi</a></li>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/proyectos.html">Proyectos</a></li>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/slides.html">Slides</a></li>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/en-construccion.html">Articulos</a></li>
-        <li><a href="https://guillermosoftwareengineer.github.io/webJunior/contacto.html">Contacto</a></li>
-      </ul>
-      <button class="close-menu">X</button>
-    </nav>
-  </header>
-</div>
-
-<!-- Calculadora -->
-<div class="calculadora-container">
-  <!-- Recuadro de Instrucciones y Convenciones, Indica al usuario como manejar la calculadora -->
-  <div
-    class="instrucciones-container"
-    style="border: 2px solid #320064; padding: 1rem; margin-bottom: 1.5rem; background-color: #282828; color: #ffffff; border-radius: 8px; text-align: center;"
+<!-- ============================================================
+     NAVBAR — Idéntico en diseño, enlaces y rutas al portafolio
+     ============================================================ -->
+<nav id="nav" [class.scrolled]="isScrolled">
+  <a
+    class="logo"
+    href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#top"
+    (click)="closeMenu()"
   >
-    <h2>Instrucciones de Uso</h2>
-    <p>
-      Esta calculadora reactiva permite realizar diversos cálculos eléctricos y de análisis de circuitos utilizando fórmulas
-      basadas en sistemas monofásicos, trifásicos, análisis AC y velocidad angular.
-    </p>
-    <p>
-      Modo de uso: seleccione el sistema (esto desplegará las subopciones más abajo), luego seleccione la variable (esto
-      desplegará las fórmulas correspondientes más abajo) y, finalmente, seleccione la fórmula (esto desplegará el formulario de
-      ingreso de datos). Ingrese los valores en los campos correspondientes y presione el botón calcular para obtener el
-      resultado con la unidad adecuada.
-    </p>
-    <p>
-      <strong>NOTA:</strong> EL SISTEMA OFRECERA TODAS LAS POSIBLES UNIDADES DE SALIDA AL ENTREGAR EL RESULTADO. (Megas, Micro, mili, etc.)
-    </p>
-    <p>
-      <strong>ADEMÁS, LAS VARIABLES COS(φ), TAN(φ) Y SEN(φ) NO SE ASIGNAN CON VALORES PREDETERMINADOS (QUE PUEDEN MODIFICARSE)
-      Y EL VALOR DE π SE CONSIDERA 3.1416.</strong>
-    </p>
-    <p>
-      <strong>IMPORTANTE:</strong> LOS VALORES A INGRESAR SIEMPRE SON EN LA UNIDAD DE OHMIOS, VOLTIOS, AMPERIOS O WATIOS, ES DECIR EN LA UNIDAD.
-    </p>
-    <h3>Convenciones y Símbolos</h3>
-    <ul
-      style="list-style: none; margin: 1rem auto; max-width: 600px; text-align: center; column-count: 2; column-gap: 2rem; padding: 0;"
-    >
-      <li style="text-align: center;"><strong>V</strong> - Voltage (Voltios)</li>
-      <li style="text-align: center;"><strong>I</strong> - Corriente (Amperios)</li>
-      <li style="text-align: center;"><strong>R</strong> - Resistencia (Ohmios)</li>
-      <li style="text-align: center;"><strong>W</strong> - Potencia Activa (Watios)</li>
-      <li style="text-align: center;"><strong>kVA</strong> - Potencia Aparente</li>
-      <li style="text-align: center;"><strong>kW</strong> - Potencia Activa</li>
-      <li style="text-align: center;"><strong>kVAR</strong> - Potencia Reactiva</li>
-      <li style="text-align: center;"><strong>f</strong> - Frecuencia</li>
-      <li style="text-align: center;"><strong>C</strong> - Capacitancia</li>
-      <li style="text-align: center;"><strong>L</strong> - Inductancia</li>
-      <li style="text-align: center;"><strong>X</strong> - Reactancia</li>
-      <li style="text-align: center;"><strong>XC</strong> - Reactancia Capacitiva</li>
-      <li style="text-align: center;"><strong>XL</strong> - Reactancia Inductiva</li>
-      <li style="text-align: center;"><strong>Z</strong> - Impedancia (Ohmios)</li>
-      <li style="text-align: center;"><strong>ω</strong> - Velocidad Angular (rad/s)</li>
-      <li style="text-align: center;"><strong>π</strong> - 3.1416</li>
-      <li style="text-align: center;"><strong>cos(φ)</strong> - Coseno de φ</li>
-      <li style="text-align: center;"><strong>tan(φ)</strong> - Tangente de φ</li>
-      <li style="text-align: center;"><strong>sen(φ)</strong> - Seno de φ</li>
-      <li style="text-align: center;"><strong>G</strong> – Giga</li>
-      <li style="text-align: center;"><strong>M</strong> – Mega</li>
-      <li style="text-align: center;"><strong>T</strong> – Tera</li>
-      <li style="text-align: center;"><strong>f</strong> – Femto</li>
-      <li style="text-align: center;"><strong>k</strong> – Kilo</li>
-      <li style="text-align: center;"><strong>m</strong> – Milli</li>
-      <li style="text-align: center;"><strong>n</strong> – Nano</li>
-      <li style="text-align: center;"><strong>p</strong> – Pico</li>
-      <li style="text-align: center;"><strong>µ</strong> – Micro</li>
+    <span class="logo-mark">
+      <svg width="14" height="11" viewBox="0 0 14 11" fill="none" aria-hidden="true">
+        <path d="M1 1l4 4.5L1 10" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7 10h6" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Guillermo Vásquez
+  </a>
 
-    </ul>
-  </div>
+  <ul class="nav-links" [class.open]="isOpen" id="navLinks">
+    <li>
+      <a href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#approach" (click)="closeMenu()">
+        Enfoque
+      </a>
+    </li>
+    <li>
+      <a href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#projects" (click)="closeMenu()">
+        Evidencia
+      </a>
+    </li>
+    <li>
+      <a href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#about" (click)="closeMenu()">
+        Sobre Mí
+      </a>
+    </li>
+    <li>
+      <a href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#contact" (click)="closeMenu()">
+        Contacto
+      </a>
+    </li>
+  </ul>
 
-  <!-- Opciones principales seleccion del sistema por el usuario para desplegar lo demas -->
-  <div class="opciones-container main-options">
-    <h2>SELECCIONA EL SISTEMA:</h2>
-    <div class="opciones-list">
-      <button
-        *ngFor="let opcion of opcionesPrincipales"
-        (click)="seleccionarOpcion(opcion)"
-        [class.active]="opcion === opcionSeleccionada"
-      >
-        {{ opcion }}
+  <button
+    class="menu-btn"
+    [class.open]="isOpen"
+    id="menuBtn"
+    aria-label="Abrir menú"
+    [attr.aria-expanded]="isOpen"
+    (click)="toggleMenu()"
+  >
+    <span class="burger-icon" aria-hidden="true">
+      <span class="bun-top"></span>
+      <span class="patty"></span>
+      <span class="bun-bot"></span>
+    </span>
+    <span class="burger-label" id="burgerLabel">{{ isOpen ? 'CERRAR' : 'MENU' }}</span>
+  </button>
+</nav>
+
+<!-- ============================================================
+     CONTENIDO PRINCIPAL
+     ============================================================ -->
+<main class="calc-main-wrapper">
+
+  <!-- HERO DE INGENIERÍA / PERFIL MULTIDISCIPLINAR -->
+  <section class="calc-hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span>INGENIERÍA APLICADA · FÍSICA &amp; SOFTWARE</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="tt-w">Cálculo y Análisis de</span><br>
+      <span class="tt-b">Sistemas Eléctricos</span>
+    </h1>
+
+    <p class="hero-description">
+      Desarrollada por <strong>Guillermo Vásquez</strong> — <em>Ingeniero de Software, Tecnólogo en Electrónica y Electricista Profesional</em>.
+      Esta plataforma integra las leyes electromagnéticas fundamentales (sistemas monofásicos, trifásicos, fasores, reactancias y factor de potencia)
+      con una arquitectura reactiva que garantiza rigor analítico, precisión computacional y conversión automática en toda la escala del Sistema Internacional.
+    </p>
+
+    <!-- TARJETAS DE DOMINIO TÉCNICO (ICONOS DE INGENIERÍA ELÉCTRICA Y CIRCUITOS) -->
+    <div class="approach-grid credentials-grid">
+      <article class="a-card">
+        <i class="fas fa-bolt a-icon" aria-hidden="true"></i>
+        <h3>Redes Monofásicas &amp; Trifásicas</h3>
+        <p>
+          Modelado riguroso de potencia activa, reactiva y aparente en sistemas monofásicos y trifásicos equilibrados con factor raíz de 3 (√3).
+        </p>
+      </article>
+
+      <article class="a-card">
+        <i class="fas fa-wave-square a-icon" aria-hidden="true"></i>
+        <h3>Análisis AC &amp; Fasores</h3>
+        <p>
+          Cálculo fasorial de factor de potencia cos(φ), ángulos de desfase y potencias aparentes para diagnóstico de eficiencia de red.
+        </p>
+      </article>
+
+      <article class="a-card">
+        <i class="fas fa-circle-nodes a-icon" aria-hidden="true"></i>
+        <h3>Velocidad Angular &amp; Reactancias</h3>
+        <p>
+          Comportamiento reactivo de inductores (XL), condensadores (XC) e impedancia total (Z) en función de la frecuencia y velocidad angular (ω).
+        </p>
+      </article>
+
+      <article class="a-card">
+        <i class="fas fa-sliders a-icon" aria-hidden="true"></i>
+        <h3>Telemetría SI (Femto a Tera)</h3>
+        <p>
+          Matriz de conversión multiescala automática que transforma magnitudes puras en 10 órdenes del Sistema Internacional en tiempo real.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- EJEMPLOS RÁPIDOS EN 1-CLIC (PRESETS) -->
+  <section class="presets-panel">
+    <div class="presets-header">
+      <span class="presets-tag">// EVALUACIÓN RÁPIDA · PRESETS EN 1-CLIC</span>
+      <span class="presets-sub">Carga y calcula casos de uso típicos de inmediato:</span>
+    </div>
+    <div class="presets-grid">
+      <button type="button" class="btn-preset" (click)="cargarPreset('trifasico-motor')">
+        <i class="fas fa-bolt" style="color: #3B82F6;"></i>
+        <span>Motor Trifásico 220V (10A)</span>
+      </button>
+      <button type="button" class="btn-preset" (click)="cargarPreset('monofasico-residencial')">
+        <i class="fas fa-plug" style="color: #3B82F6;"></i>
+        <span>Carga Monofásica 120V (10Ω)</span>
+      </button>
+      <button type="button" class="btn-preset" (click)="cargarPreset('velocidad-red')">
+        <i class="fas fa-wave-square" style="color: #3B82F6;"></i>
+        <span>Velocidad Angular 60Hz</span>
+      </button>
+      <button type="button" class="btn-preset" (click)="cargarPreset('reactancia-inductiva')">
+        <i class="fas fa-microchip" style="color: #3B82F6;"></i>
+        <span>Reactancia XL (60Hz, 50mH)</span>
       </button>
     </div>
-  </div>
+  </section>
 
-  <!-- Subopciones 1 de seleccion del usuario-->
-  <div class="opciones-container sub-options" *ngIf="opcionSeleccionada">
-    <h2>SELECCIONA LA VARIABLE:</h2>
-    <div class="opciones-list">
-      <button
-        *ngFor="let subopcion of (opcionSeleccionada ? subopciones[opcionSeleccionada] : [])"
-        (click)="seleccionarSubopcion(subopcion)"
-        [class.active]="subopcion === subopcionSeleccionada"
-      >
-        {{ subopcion }}
-      </button>
+  <!-- RECUADRO DE INSTRUCCIONES Y CONVENCIONES TÉCNICAS -->
+  <section class="panel-card instructions-panel">
+    <div class="panel-header">
+      <div class="panel-indicator">
+        <span class="indicator-bar"></span>
+        <span class="panel-tag">GUÍA DE OPERACIÓN</span>
+      </div>
+      <h2 class="panel-title">Instrucciones y Convenciones Técnicas</h2>
     </div>
-  </div>
 
-  <!-- Opciones adicionales 2 de seleccion del usuario-->
-  <div class="opciones-container adicionales" *ngIf="subopcionSeleccionada">
-    <h2>SELECCIONA LA FÓRMULA:</h2>
-    <div class="opciones-list">
-      <!-- Sistemas monofásicos -->
-      <ng-container *ngIf="opcionSeleccionada === 'Sistemas monofásicos'">
-        <button
-          *ngFor="let item of monofasicoEquations[subopcionSeleccionada!]; let i = index"
-          (click)="seleccionarSubsubopcion(i)"
-          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
-        >
-          {{ item.formula }}
-        </button>
-      </ng-container>
-      <!-- Sistemas trifásicos -->
-      <ng-container *ngIf="opcionSeleccionada === 'Sistemas trifásicos'">
-        <button
-          *ngFor="let item of trifasicoEquations[subopcionSeleccionada!]; let i = index"
-          (click)="seleccionarSubsubopcion(i)"
-          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
-        >
-          {{ item.formula }}
-        </button>
-      </ng-container>
-      <!-- Análisis AC coseno de φ -->
-      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC coseno de φ'">
-        <button
-          *ngFor="let item of acTrifasicoEquations[subopcionSeleccionada!]; let i = index"
-          (click)="seleccionarSubsubopcion(i)"
-          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
-        >
-          {{ item.formula }}
-        </button>
-      </ng-container>
-      <!-- Análisis AC velocidad angular -->
-      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC velocidad angular'">
-        <button
-          *ngFor="let item of acVelocidadEquations[subopcionSeleccionada!]; let i = index"
-          (click)="seleccionarSubsubopcion(i)"
-          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
-        >
-          {{ item.formula }}
-        </button>
-      </ng-container>
-      <!-- Análisis AC General -->
-      <ng-container *ngIf="opcionSeleccionada === 'Análisis AC General'">
-        <button
-          *ngFor="let item of acGeneralEquations[subopcionSeleccionada!]; let i = index"
-          (click)="seleccionarSubsubopcion(i)"
-          [class.active]="selectedEquation && selectedEquation.formula === item.formula"
-        >
-          {{ item.formula }}
-        </button>
-      </ng-container>
-    </div>
-  </div>
-
-  <!-- Formulario para ecuaciones -->
-  <div
-    class="formulario-container formulario-fondo"
-    *ngIf="
-      (opcionSeleccionada === 'Sistemas monofásicos' ||
-        opcionSeleccionada === 'Sistemas trifásicos' ||
-        opcionSeleccionada === 'Análisis AC coseno de φ' ||
-        opcionSeleccionada === 'Análisis AC velocidad angular' ||
-        opcionSeleccionada === 'Análisis AC General') &&
-      selectedEquation
-    "
-  >
-    <h2>Formulario para {{ selectedEquation.formula }}</h2>
-    <form (ngSubmit)="calcular()">
-      <div class="form-group" *ngFor="let variable of equationVariableLabels">
-        <label [for]="variable">{{ variable }}:</label>
-        <input
-          type="number"
-          [id]="variable"
-          [(ngModel)]="formulario[variable]"
-          [name]="variable"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="decimales">Decimales:</label>
-        <input
-          type="number"
-          id="decimales"
-          name="decimales"
-          min="0"
-          max="6"
-          step="1"
-          [(ngModel)]="decimales"
-          required
-        />
-      </div>
-
-      <button type="submit">Calcular</button>
-    </form>
-  </div>
-
-  <!-- Formulario genérico -->
-  <div
-    class="formulario-container"
-    *ngIf="
-      opcionSeleccionada !== 'Sistemas monofásicos' &&
-      opcionSeleccionada !== 'Sistemas trifásicos' &&
-      opcionSeleccionada !== 'Análisis AC coseno de φ' &&
-      opcionSeleccionada !== 'Análisis AC velocidad angular' &&
-      opcionSeleccionada !== 'Análisis AC General' &&
-      subopcionSeleccionada
-    "
-  >
-    <h2>Formulario para {{ subopcionSeleccionada }}</h2>
-    <form (ngSubmit)="calcular()">
-      <div class="form-group">
-        <label for="input1">Input 1:</label>
-        <input
-          type="number"
-          id="input1"
-          name="input1"
-          [(ngModel)]="formulario['input1']"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="input2">Input 2:</label>
-        <input
-          type="number"
-          id="input2"
-          name="input2"
-          [(ngModel)]="formulario['input2']"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="input3">Input 3:</label>
-        <input
-          type="number"
-          id="input3"
-          name="input3"
-          [(ngModel)]="formulario['input3']"
-          required
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="decimales2">Decimales:</label>
-        <input
-          type="number"
-          id="decimales2"
-          name="decimales2"
-          min="0"
-          max="6"
-          step="1"
-          [(ngModel)]="decimales"
-          required
-        />
-      </div>
-
-      <button type="submit">Calcular</button>
-    </form>
-  </div>
-
-  <!-- Resultado -->
-  <div class="resultado-container" *ngIf="resultado !== null">
-    <h2>Resultado</h2>
-    <p class="valor-principal">{{ resultado }} {{ unidad }}</p>
-
-    <!-- Tarjetas de conversiones para mostrar las diferentes conversiones de un solo resultado -->
-    <div class="conversiones-wrapper">
-      <div
-        class="conversion-item"
-        *ngFor="let item of conversiones | keyvalue"
-      >
-        <div class="valor">
-          {{ item.value | number: ('1.' + decimales + '-' + decimales) }}
-        </div>
-        <div class="unidad">{{ item.key }}</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer class="footer-4">
-  <div class="footer-container-4">
-    <div class="footer-contact-4">
-      <h3 class="footer-title-4">Conéctate</h3>
-      <p class="footer-text-4">
-        Explora mis redes sociales y envíame un mensaje para colaborar en proyectos innovadores.
+    <div class="panel-body">
+      <p class="instructions-intro">
+        Esta calculadora reactiva permite resolver magnitudes en circuitos eléctricos mediante modelos matemáticos normados.
+        Siga el flujo secuencial en 3 fases: <strong>Seleccione el Sistema</strong>, luego la <strong>Variable Objetivo</strong> y finalmente la <strong>Ecuación de Cálculo</strong> adecuada para ingresar los datos.
       </p>
+
+      <div class="notes-grid">
+        <div class="note-box">
+          <div class="note-title">UNIDADES DE ENTRADA</div>
+          <p>Ingrese siempre valores en la magnitud base: Voltios (V), Amperios (I), Ohmios (Ω) o Vatios (W).</p>
+        </div>
+        <div class="note-box">
+          <div class="note-title">FACTOR DE POTENCIA</div>
+          <p>cos(φ), sen(φ) y tan(φ) son parametrizables dinámicamente; π se calcula rigurosamente como 3.1416.</p>
+        </div>
+        <div class="note-box">
+          <div class="note-title">TELEMETRÍA DE SALIDA</div>
+          <p>El motor entrega automáticamente el resultado expresado en 10 órdenes de magnitud (femto a tera).</p>
+        </div>
+      </div>
+
+      <!-- Símbolos y prefijos organizados -->
+      <div class="symbols-section">
+        <h3 class="subheading-mono">// NOMENCLATURA DE VARIABLES ELÉCTRICAS</h3>
+        <div class="symbols-grid">
+          <div class="sym-item"><span class="sym-code">V</span><span class="sym-desc">Voltaje (Voltios)</span></div>
+          <div class="sym-item"><span class="sym-code">I</span><span class="sym-desc">Corriente (Amperios)</span></div>
+          <div class="sym-item"><span class="sym-code">R</span><span class="sym-desc">Resistencia (Ohmios)</span></div>
+          <div class="sym-item"><span class="sym-code">W</span><span class="sym-desc">Potencia Activa (W)</span></div>
+          <div class="sym-item"><span class="sym-code">kVA</span><span class="sym-desc">Potencia Aparente</span></div>
+          <div class="sym-item"><span class="sym-code">kVAR</span><span class="sym-desc">Potencia Reactiva</span></div>
+          <div class="sym-item"><span class="sym-code">Z</span><span class="sym-desc">Impedancia Total (Ω)</span></div>
+          <div class="sym-item"><span class="sym-code">XL</span><span class="sym-desc">Reactancia Inductiva (Ω)</span></div>
+          <div class="sym-item"><span class="sym-code">XC</span><span class="sym-desc">Reactancia Capacitiva (Ω)</span></div>
+          <div class="sym-item"><span class="sym-code">ω</span><span class="sym-desc">Velocidad Angular (rad/s)</span></div>
+          <div class="sym-item"><span class="sym-code">cos(φ)</span><span class="sym-desc">Factor de Potencia</span></div>
+          <div class="sym-item"><span class="sym-code">f</span><span class="sym-desc">Frecuencia (Hz)</span></div>
+        </div>
+      </div>
+
+      <div class="symbols-section">
+        <h3 class="subheading-mono">// PREFIJOS DEL SISTEMA INTERNACIONAL (SI)</h3>
+        <div class="prefixes-row">
+          <span class="pref-badge"><strong>T</strong> Tera (10¹²)</span>
+          <span class="pref-badge"><strong>G</strong> Giga (10⁹)</span>
+          <span class="pref-badge"><strong>M</strong> Mega (10⁶)</span>
+          <span class="pref-badge"><strong>k</strong> Kilo (10³)</span>
+          <span class="pref-badge"><strong>m</strong> Mili (10⁻³)</span>
+          <span class="pref-badge"><strong>µ</strong> Micro (10⁻⁶)</span>
+          <span class="pref-badge"><strong>n</strong> Nano (10⁻⁹)</span>
+          <span class="pref-badge"><strong>p</strong> Pico (10⁻¹²)</span>
+          <span class="pref-badge"><strong>f</strong> Femto (10⁻¹⁵)</span>
+        </div>
+      </div>
     </div>
-    <div class="footer-icons-4">
-      <a
-        href="https://www.linkedin.com/in/guillermovasbendev/"
-        target="_blank"
-        class="footer-icon-link-4"
-      >
-        <img
-          src="./assets/images/icon-4-linkedin.png"
-          alt="LinkedIn"
-          class="icon-4"
-        />
-      </a>
-      <a
-        href="https://github.com/guillermoSoftwareEngineer"
-        target="_blank"
-        class="footer-icon-link-4"
-      >
-        <img src="./assets/images/icon-4-github.png" alt="GitHub" class="icon-4" />
-      </a>
-      <a href="https://guillermosoftwareengineer.github.io/webJunior/contacto.html" class="footer-icon-link-4">
-        <img src="./assets/images/icon-4-email.png" alt="Correo Electrónico" class="icon-4" />
-      </a>
+  </section>
+
+  <!-- ============================================================
+       CALCULADORA INTERACTIVA
+       ============================================================ -->
+  <div class="calculadora-container">
+
+    <!-- PASO 1: SELECCIÓN DEL SISTEMA -->
+    <div class="opciones-container step-card" id="paso-sistemas">
+      <div class="step-badge">
+        <span class="step-num">01</span>
+        <span class="step-label">SELECCIONA EL SISTEMA DE ANÁLISIS</span>
+      </div>
+      <div class="opciones-list">
+        <button
+          *ngFor="let opcion of opcionesPrincipales"
+          (click)="seleccionarOpcion(opcion)"
+          [class.active]="opcion === opcionSeleccionada"
+          class="btn-option"
+        >
+          <span class="btn-indicator"></span>
+          {{ opcion }}
+        </button>
+      </div>
     </div>
+
+    <!-- PASO 2: SUBOPCIONES (VARIABLE A CALCULAR) -->
+    <div class="subopciones-container step-card" id="paso-variables" *ngIf="opcionSeleccionada">
+      <div class="step-badge">
+        <span class="step-num">02</span>
+        <span class="step-label">SELECCIONA LA VARIABLE OBJETIVO: {{ opcionSeleccionada }}</span>
+      </div>
+      <div class="subopciones-list">
+        <button
+          *ngFor="let subopcion of subopciones[opcionSeleccionada]"
+          (click)="seleccionarSubopcion(subopcion)"
+          [class.active]="subopcion === subopcionSeleccionada"
+          class="btn-suboption"
+        >
+          {{ subopcion }}
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 3: SELECCIÓN DE LA FÓRMULA -->
+    <div class="subsubopciones-container step-card" id="paso-formulas" *ngIf="subopcionSeleccionada">
+      <div class="step-badge">
+        <span class="step-num">03</span>
+        <span class="step-label">SELECCIONA LA ECUACIÓN DISPONIBLE</span>
+      </div>
+      <div class="subsubopciones-list">
+        <button
+          *ngFor="let eq of getSubsubopciones(); let i = index"
+          (click)="seleccionarSubsubopcion(i)"
+          [class.active]="eq === selectedEquation"
+          class="btn-formula"
+        >
+          <code>{{ eq.formula }}</code>
+        </button>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DE ENTRADA DE DATOS -->
+    <div class="formulario-container step-card" id="paso-formulario" *ngIf="selectedEquation">
+      <div class="step-badge">
+        <span class="step-num">04</span>
+        <span class="step-label">INGRESO DE PARÁMETROS TÉCNICOS</span>
+      </div>
+
+      <div class="active-formula-hud">
+        <span class="formula-hud-label">MODELO EN EVALUACIÓN:</span>
+        <code class="formula-hud-code">{{ selectedEquation.formula }}</code>
+      </div>
+
+      <!-- Alerta técnica ante errores o indeterminación -->
+      <div class="error-alert" *ngIf="errorMensaje" role="alert">
+        <i class="fas fa-triangle-exclamation" style="font-size: 1.1rem; color: #EF4444;"></i>
+        <span>{{ errorMensaje }}</span>
+      </div>
+
+      <form (ngSubmit)="calcular()" class="calc-form">
+        <div class="inputs-grid">
+          <!-- Campos dinámicos para cada variable requerida por la fórmula -->
+          <div class="form-group" *ngFor="let v of selectedEquation.variables">
+            <label [for]="'input_' + v">
+              <span class="var-badge">{{ v }}</span>
+              Valor de {{ v }}:
+            </label>
+            <input
+              type="number"
+              [id]="'input_' + v"
+              [name]="'input_' + v"
+              [(ngModel)]="formulario[v]"
+              placeholder="0.00"
+              step="any"
+              required
+            />
+          </div>
+
+          <!-- Decimales con recálculo dinámico en vivo -->
+          <div class="form-group precision-group">
+            <label for="decimales">
+              <span class="var-badge">0-6</span>
+              Cifras Decimales:
+            </label>
+            <input
+              type="number"
+              id="decimales"
+              name="decimales"
+              min="0"
+              max="6"
+              step="1"
+              [(ngModel)]="decimales"
+              (ngModelChange)="actualizarDecimales()"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-calculate">
+            <i class="fas fa-calculator" aria-hidden="true"></i>
+            CALCULAR MAGNITUD
+          </button>
+
+          <button type="button" class="btn-reset" (click)="resetearFormulario(true)">
+            <i class="fas fa-rotate-left" aria-hidden="true"></i>
+            Reiniciar Valores
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- RESULTADO Y PANEL DE CONVERSIONES -->
+    <div class="resultado-container step-card" id="paso-resultado" *ngIf="resultado !== null" aria-live="polite">
+      <div class="step-badge">
+        <span class="step-num">05</span>
+        <span class="step-label">RESULTADO Y TELEMETRÍA DEL SISTEMA</span>
+      </div>
+
+      <div class="resultado-hero">
+        <span class="res-label">VALOR CALCULADO (MAGNITUD BASE)</span>
+        <div class="res-display">
+          <span class="res-num">{{ resultado | number: ('1.' + (decimales || 0) + '-' + (decimales || 0)) }}</span>
+          <span class="res-unit">{{ unidad }}</span>
+        </div>
+      </div>
+
+      <!-- Tarjetas de conversiones SI -->
+      <div class="conversiones-section">
+        <h4 class="conversiones-title">// MATRIZ DE ESCALAS DEL SISTEMA INTERNACIONAL</h4>
+        <div class="conversiones-grid">
+          <div class="conversion-card" *ngFor="let item of conversiones | keyvalue">
+            <div class="card-prefix">
+              <span class="prefix-symbol">{{ item.key }}</span>
+              <span class="prefix-unit">{{ unidad }}</span>
+            </div>
+            <div class="prefix-value">
+              {{ item.value | number: ('1.' + decimales + '-' + decimales) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
+  <!-- ============================================================
+       BANNER DE RETORNO AL PORTAFOLIO PRINCIPAL (PRE-FOOTER)
+       ============================================================ -->
+  <section class="portfolio-return-banner">
+    <div class="return-card">
+      <div class="return-info">
+        <span class="return-tag">// MARCA PERSONAL &amp; ECOSISTEMA TÉCNICO</span>
+        <h3 class="return-title">¿Deseas explorar más sobre mi trabajo y proyectos?</h3>
+        <p class="return-desc">
+          Descubre mis arquitecturas de hardware, telemetría IoT serverless, firmware embebido y diseño de sistemas aplicados en mi portafolio oficial.
+        </p>
+      </div>
+      <div class="return-actions">
+        <a
+          href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#projects"
+          class="btn-return-primary"
+        >
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          Volver a Proyectos del Portafolio
+        </a>
+        <a
+          href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#contact"
+          class="btn-return-secondary"
+        >
+          <i class="fas fa-envelope" aria-hidden="true" style="margin-right: 0.4rem;"></i>
+          Contacto Directo
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER — Idéntico al portafolio de Guillermo Vásquez
+     ============================================================ -->
+<footer>
+  <div class="socials">
+    <a
+      href="https://www.linkedin.com/in/guillermovasbendev/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="li"
+      title="LinkedIn"
+      aria-label="Perfil de LinkedIn de Guillermo Vásquez"
+    >
+      <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+    </a>
+
+    <a
+      href="https://github.com/guillermoSoftwareEngineer"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="gh"
+      title="GitHub"
+      aria-label="Repositorio de GitHub de Guillermo Vásquez"
+    >
+      <i class="fab fa-github" aria-hidden="true"></i>
+    </a>
+
+    <a
+      href="https://guillermosoftwareengineer.github.io/architect_portfolio_2026/#contact"
+      class="em"
+      title="Contacto Directo"
+      aria-label="Contacto directo con Guillermo Vásquez"
+    >
+      <i class="fas fa-envelope" aria-hidden="true"></i>
+    </a>
+  </div>
+
+  <p>© 2026 Guillermo Vásquez · Ingeniero de Sistemas Aplicados</p>
 </footer>

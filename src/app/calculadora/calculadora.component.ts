@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -33,6 +33,11 @@ interface Conversions {
   styleUrls: ['./calculadora.component.css']
 })
 export class CalculadoraComponent implements AfterViewInit {
+
+  /* Estado de la barra de navegación idéntico al portafolio */
+  isOpen: boolean = false;
+  isScrolled: boolean = false;
+  errorMensaje: string | null = null;
 
   /* Configuración de UI  */
 
@@ -374,8 +379,18 @@ export class CalculadoraComponent implements AfterViewInit {
     return this.selectedEquation ? this.selectedEquation.variables : [];
   }
 
-  /*Lógica de selección*/
+  /*Lógica de selección y navegación contextual*/
 
+  scrollHacia(id: string): void {
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 60);
+    }
+  }
 
   seleccionarOpcion(opcion: string): void {
     this.opcionSeleccionada = opcion;
@@ -383,6 +398,8 @@ export class CalculadoraComponent implements AfterViewInit {
     this.subsubopcionSeleccionada = null;
     this.resetearFormulario();
     this.selectedEquation = null;
+    this.errorMensaje = null;
+    this.scrollHacia('paso-variables');
   }
 
   seleccionarSubopcion(subopcion: string): void {
@@ -390,6 +407,28 @@ export class CalculadoraComponent implements AfterViewInit {
     this.subsubopcionSeleccionada = null;
     this.resetearFormulario();
     this.selectedEquation = null;
+    this.errorMensaje = null;
+    this.scrollHacia('paso-formulas');
+  }
+
+  getSubsubopciones(): Equation[] {
+    if (!this.opcionSeleccionada || !this.subopcionSeleccionada) {
+      return [];
+    }
+    switch (this.opcionSeleccionada) {
+      case 'Sistemas monofásicos':
+        return this.monofasicoEquations[this.subopcionSeleccionada] || [];
+      case 'Sistemas trifásicos':
+        return this.trifasicoEquations[this.subopcionSeleccionada] || [];
+      case 'Análisis AC coseno de φ':
+        return this.acTrifasicoEquations[this.subopcionSeleccionada] || [];
+      case 'Análisis AC velocidad angular':
+        return this.acVelocidadEquations[this.subopcionSeleccionada] || [];
+      case 'Análisis AC General':
+        return this.acGeneralEquations[this.subopcionSeleccionada] || [];
+      default:
+        return [];
+    }
   }
 
   seleccionarSubsubopcion(index: number): void {
@@ -412,32 +451,77 @@ export class CalculadoraComponent implements AfterViewInit {
         break;
     }
     this.resetearFormulario(true);
+    this.errorMensaje = null;
+    this.scrollHacia('paso-formulario');
   }
 
-  /* Seccion de Cálculo*/
+  /* Presets rápidos para reclutadores y evaluaciones en 1-clic */
+  cargarPreset(tipo: 'trifasico-motor' | 'monofasico-residencial' | 'velocidad-red' | 'reactancia-inductiva'): void {
+    this.errorMensaje = null;
+    if (tipo === 'trifasico-motor') {
+      this.opcionSeleccionada = 'Sistemas trifásicos';
+      this.subopcionSeleccionada = 'Vatios';
+      this.selectedEquation = this.trifasicoEquations['Vatios'][0];
+      this.resetearFormulario(false);
+      this.formulario = { 'V': 220, 'I': 10 };
+      this.calcular();
+    } else if (tipo === 'monofasico-residencial') {
+      this.opcionSeleccionada = 'Sistemas monofásicos';
+      this.subopcionSeleccionada = 'Corriente';
+      this.selectedEquation = this.monofasicoEquations['Corriente'][0];
+      this.resetearFormulario(false);
+      this.formulario = { 'V': 120, 'R': 10 };
+      this.calcular();
+    } else if (tipo === 'velocidad-red') {
+      this.opcionSeleccionada = 'Análisis AC velocidad angular';
+      this.subopcionSeleccionada = 'Frecuencia Angular (ω)';
+      this.selectedEquation = this.acVelocidadEquations['Frecuencia Angular (ω)'][0];
+      this.resetearFormulario(false);
+      this.formulario = { 'f': 60 };
+      this.calcular();
+    } else if (tipo === 'reactancia-inductiva') {
+      this.opcionSeleccionada = 'Análisis AC velocidad angular';
+      this.subopcionSeleccionada = 'Reactancia Inductiva (XL)';
+      this.selectedEquation = this.acVelocidadEquations['Reactancia Inductiva (XL)'][0];
+      this.resetearFormulario(false);
+      this.formulario = { 'f': 60, 'L': 0.05 };
+      this.calcular();
+    }
+  }
+
+  /* Sección de Cálculo Seguro */
   calcular(): void {
+    this.errorMensaje = null;
+    this.resultado = null;
     if (this.selectedEquation) {
       for (const v of this.selectedEquation.variables) {
-        if (this.formulario[v] == null) {
-          alert(`Por favor, ingrese el valor de ${v}.`);
+        if (this.formulario[v] == null || isNaN(+this.formulario[v]!)) {
+          this.errorMensaje = `Por favor, ingrese un valor numérico para la magnitud ${v}.`;
           return;
         }
       }
       const inputs: { [k: string]: number } = {};
       this.selectedEquation.variables.forEach(v => inputs[v] = +this.formulario[v]!);
-      this.resultado = this.selectedEquation.compute(inputs);
+
+      const res = this.selectedEquation.compute(inputs);
+      if (!isFinite(res) || isNaN(res)) {
+        this.errorMensaje = 'Indeterminación física o división por cero detectada (ej. resistencia o corriente igual a cero). Revise los parámetros.';
+        this.resultado = null;
+        return;
+      }
+
+      this.resultado = res;
       this.asignarUnidad();
-    } else {
-      this.resultado = Math.random() * 100;
-      this.unidad = '';
+      this.conversiones = this.crearConversiones(this.resultado ?? 0);
+      this.scrollHacia('paso-resultado');
     }
-    this.conversiones = this.crearConversiones(this.resultado ?? 0);
   }
 
   /*Auxiliares UI*/
 
 
   resetearFormulario(resetInputs = true): void {
+    this.errorMensaje = null;
     if (resetInputs) {
       if (this.selectedEquation) {
         this.formulario = {};
@@ -469,9 +553,35 @@ export class CalculadoraComponent implements AfterViewInit {
     this.unidad = mapa[s] ?? '';
   }
 
+  actualizarDecimales(): void {
+    if (this.resultado !== null) {
+      this.conversiones = this.crearConversiones(this.resultado);
+    }
+  }
+
   crearConversiones(valor: number): Conversions {
-    const d = Math.min(Math.max(this.decimales, 0), 6);
-    const f = (v: number) => Number.isFinite(v) ? v.toFixed(d) : '--';
+    const d = Math.min(Math.max(this.decimales || 0, 0), 6);
+    const f = (v: number) => {
+      if (!Number.isFinite(v)) return '--';
+      if (v === 0) return (0).toFixed(d);
+
+      const fixedStr = v.toFixed(d);
+      const fixedNum = parseFloat(fixedStr);
+
+      // Si el número formateado con 'd' decimales daría 0.00 pero el valor real no es cero,
+      // mostramos notación científica precisa para no engañar con un falso cero.
+      if (fixedNum === 0 && Math.abs(v) > 0) {
+        return v.toExponential(d);
+      }
+
+      // Si el valor es extremadamente grande en esa escala (>= 1e9), usamos notación exponencial
+      if (Math.abs(v) >= 1e9) {
+        return v.toExponential(d);
+      }
+
+      return fixedStr;
+    };
+
     return {
       f: f(valor * 1e15),
       p: f(valor * 1e12),
@@ -486,23 +596,27 @@ export class CalculadoraComponent implements AfterViewInit {
     };
   }
 
+  /* Control del Navbar idéntico al portafolio */
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    if (typeof window !== 'undefined') {
+      this.isScrolled = window.scrollY > 40;
+    }
+  }
+
+  toggleMenu(): void {
+    this.isOpen = !this.isOpen;
+  }
+
+  closeMenu(): void {
+    this.isOpen = false;
+  }
+
   /*Inicialización del DOM*/
-
-
   ngAfterViewInit(): void {
-    const toggle = document.querySelector('.menu-header .menu-toggle-modern') as HTMLElement | null;
-    const nav    = document.querySelector('.menu-header .nav-modern')        as HTMLElement | null;
-    const close  = document.querySelector('.menu-header .close-menu')        as HTMLElement | null;
-
-    toggle?.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-      nav?.classList.toggle('active');
-    });
-
-    close?.addEventListener('click', () => {
-      nav?.classList.remove('active');
-      toggle?.classList.remove('active');
-    });
+    // Si la página carga con scroll existente
+    if (typeof window !== 'undefined') {
+      this.isScrolled = window.scrollY > 40;
+    }
   }
 }
-
